@@ -114,8 +114,12 @@ Open the Swagger URL displayed by the application, usually ending in /swagger.
 
 5.Test endpoints according to your role's permissions.
 
+
 ## 7. Run Tests
 
 dotnet test RaceDay.API.slnx
 
 GitHub Actions automatically builds and tests the project when changes are pushed to the configured branch or a pull request is opened.
+
+## 8.Screenshot of a succeddful green build
+<img width="866" height="706" alt="image" src="https://github.com/user-attachments/assets/58751448-5933-4d4a-874e-415675fc2d50" />
