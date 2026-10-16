@@ -36,3 +36,15 @@ RaceDay API is a RESTful Web API developed using C# and ASP.NET Core (.NET 10). 
 -Create, view, update, and delete race events where authorized.
 
 -Manage categories, enrollments, and results where permitted.
+
+## 3. Technologies Used
+
+-C# and ASP.NET Core (.NET 10)
+
+-SQL Server and Entity Framework Core
+
+-JWT Bearer Authentication
+
+-Swagger / OpenAPI
+
+-GitHub Actions
