@@ -113,3 +113,9 @@ Open the Swagger URL displayed by the application, usually ending in /swagger.
 4.Enter the token in the required format, usually Bearer YOUR_ACCESS_TOKEN.
 
 5.Test endpoints according to your role's permissions.
+
+## 7. Run Tests
+
+dotnet test RaceDay.API.slnx
+
+GitHub Actions automatically builds and tests the project when changes are pushed to the configured branch or a pull request is opened.
