@@ -101,3 +101,15 @@ dotnet build RaceDay.API.slnx
 dotnet run --project RaceDay.API/RaceDay.API.csproj
 
 Open the Swagger URL displayed by the application, usually ending in /swagger.
+
+### 6. Authentication
+
+1.Register or use an existing account.
+
+2.Log in to obtain a JWT access token.
+
+3.Click Authorize in Swagger.
+
+4.Enter the token in the required format, usually Bearer YOUR_ACCESS_TOKEN.
+
+5.Test endpoints according to your role's permissions.
