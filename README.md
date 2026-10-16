@@ -28,3 +28,11 @@ RaceDay API is a RESTful Web API developed using C# and ASP.NET Core (.NET 10). 
 -Access their profile and permitted enrollment information.
 
 -View results where authorized.
+
+### Organiser
+
+-Log in using an organiser account.
+
+-Create, view, update, and delete race events where authorized.
+
+-Manage categories, enrollments, and results where permitted.
