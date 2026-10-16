@@ -90,7 +90,7 @@ Ensure the database and required tables exist before running the API. Do not del
 
 Do not commit secret keys or passwords to GitHub.
 
-### 5. Run the API
+## 5. Run the API
 
 #### Run these commands from the repository root:
 
@@ -102,7 +102,7 @@ dotnet run --project RaceDay.API/RaceDay.API.csproj
 
 Open the Swagger URL displayed by the application, usually ending in /swagger.
 
-### 6. Authentication
+## 6. Authentication
 
 1.Register or use an existing account.
 
