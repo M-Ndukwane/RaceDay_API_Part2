@@ -1,0 +1,22 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Build output
+**/bin/
+**/obj/
+
+# Local configuration and secrets
+appsettings.Development.json
+secrets.json
+
+# Test output
+**/TestResults/
+
+# Local environment files
+.env
+.env.*
+
+# Keep an example configuration if you create one
+!appsettings.example.json
