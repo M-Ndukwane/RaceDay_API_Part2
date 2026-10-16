@@ -65,3 +65,15 @@ git clone https://github.com/M-Ndukwane/RaceDay_API_Part2.git
 cd RaceDay_API_Part2
 
 Open RaceDay.API.slnx in Visual Studio.
+
+### Database Configuration
+
+#### The development database uses:
+
+-Server: (localdb)\MSSQLLocalDB
+
+-Database: RaceDay
+
+-Authentication: Windows Authentication
+
+Ensure the database and required tables exist before running the API. Do not delete an existing database containing project data.
