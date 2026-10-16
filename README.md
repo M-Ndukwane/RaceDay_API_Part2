@@ -77,3 +77,13 @@ Open RaceDay.API.slnx in Visual Studio.
 -Authentication: Windows Authentication
 
 Ensure the database and required tables exist before running the API. Do not delete an existing database containing project data.
+
+### Configure JWT
+
+#### Configure these settings in your local environment:
+
+-Jwt:Key
+
+-Jwt:Issuer
+
+-Jwt:Audience
