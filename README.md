@@ -119,12 +119,16 @@ Open the Swagger URL displayed by the application, usually ending in /swagger.
 
 dotnet test RaceDay.API.slnx
 
-## youtube link
-https://youtu.be/JgGxr6m4jjE
-https://youtu.be/sNMC7pZXbyc
-it continues on to the next video
-
 GitHub Actions automatically builds and tests the project when changes are pushed to the configured branch or a pull request is opened.
 
 ## 8.Screenshot of a succeddful green build
 <img width="866" height="706" alt="image" src="https://github.com/user-attachments/assets/58751448-5933-4d4a-874e-415675fc2d50" />
+
+
+## 9.youtube link
+
+https://youtu.be/JgGxr6m4jjE
+
+https://youtu.be/sNMC7pZXbyc
+
+it continues on to the next video
