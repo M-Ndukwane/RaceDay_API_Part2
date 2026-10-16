@@ -48,3 +48,13 @@ RaceDay API is a RESTful Web API developed using C# and ASP.NET Core (.NET 10). 
 -Swagger / OpenAPI
 
 -GitHub Actions
+
+## 4. Setup Instructions
+
+### Prerequisites
+
+-Visual Studio
+
+_.NET 10 SDK
+
+_SQL Server LocalDB
