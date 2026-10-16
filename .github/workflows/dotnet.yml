@@ -27,8 +27,11 @@ jobs:
         run: dotnet build RaceDay.API.slnx --configuration Release --no-restore
 
       
+     
       - name: Run tests
         env:
           Jwt__Key: "RaceDayTestOnlySigningKey-12345678901234567890"
+          Jwt__Issuer: "RaceDayTestIssuer"
+          Jwt__Audience: "RaceDayTestAudience"
         run: dotnet test RaceDay.API.slnx --configuration Release --no-build --logger "console;verbosity=normal"
 
