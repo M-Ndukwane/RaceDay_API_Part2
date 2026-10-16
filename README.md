@@ -87,3 +87,13 @@ Ensure the database and required tables exist before running the API. Do not del
 -Jwt:Issuer
 
 -Jwt:Audience
+
+### 5. Run the API
+
+#### Run these commands from the repository root:
+
+dotnet restore RaceDay.API.slnx
+dotnet build RaceDay.API.slnx
+dotnet run --project RaceDay.API/RaceDay.API.csproj
+
+Open the Swagger URL displayed by the application, usually ending in /swagger.
