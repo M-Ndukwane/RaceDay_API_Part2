@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RaceDay.API.Data;
@@ -48,6 +48,34 @@ namespace RaceDay.API.Controllers
             }
 
             return Ok(result);
+        }
+
+        // Get results belonging to the logged-in participant
+        [HttpGet("my-results")]
+        [Authorize(Roles = "Participant")]
+        public async Task<IActionResult> GetMyResults()
+        {
+            var userIdValue = User.FindFirst(
+                System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            if (!int.TryParse(userIdValue, out int userId))
+                return Unauthorized();
+
+            var results = await _context.Results
+                .Where(r => r.Enrollment.UsersID == userId)
+                .Select(r => new
+                {
+                    r.ResultsID,
+                    r.Position,
+                    r.FinishTimeSeconds,
+                    r.ResultStatus,
+                    r.RecordedAt,
+                    EventName = r.Enrollment.Event.EventName
+                })
+                .AsNoTracking()
+                .ToListAsync();
+
+            return Ok(results);
         }
 
         // POST: api/Results
