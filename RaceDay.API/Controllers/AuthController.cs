@@ -1,8 +1,6 @@
-﻿
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +8,10 @@ using Microsoft.IdentityModel.Tokens;
 using RaceDay.API.Data;
 using RaceDay.API.DTOs;
 using RaceDay.API.Models;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+
 
 namespace RaceDay.API.Controllers
 {
@@ -31,7 +33,7 @@ namespace RaceDay.API.Controllers
             _configuration = configuration;
         }
 
-       
+
 [HttpPost("register")]
 public async Task<IActionResult> Register(RegisterRequest request)
         {
@@ -185,6 +187,64 @@ public async Task<IActionResult> Register(RegisterRequest request)
                     user.Email,
                     Role = user.Role.RoleName
                 }
+            });
+        }
+        // Change password for the logged-in user
+        [Authorize]
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePassword(ChangePasswordDto request)
+        {
+            var userIdValue = User.FindFirstValue(
+                ClaimTypes.NameIdentifier);
+
+            if (!int.TryParse(userIdValue, out var userId))
+            {
+                return Unauthorized();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u => u.UsersID == userId);
+
+            if (user == null || !user.IsActive)
+            {
+                return Unauthorized();
+            }
+
+            var verificationResult = _passwordHasher.VerifyHashedPassword(
+                user,
+                user.PasswordHash,
+                request.CurrentPassword);
+
+            if (verificationResult == PasswordVerificationResult.Failed)
+            {
+                return BadRequest(new
+                {
+                    message = "Your current password is incorrect."
+                });
+            }
+
+            if (request.CurrentPassword == request.NewPassword)
+            {
+                return BadRequest(new
+                {
+                    message = "Your new password must be different from your current password."
+                });
+            }
+
+            user.PasswordHash = _passwordHasher.HashPassword(
+                user,
+                request.NewPassword);
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new
+            {
+                message = "Password changed successfully."
             });
         }
     }
