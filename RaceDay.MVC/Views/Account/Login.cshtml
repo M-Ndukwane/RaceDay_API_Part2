@@ -1,0 +1,264 @@
+@model RaceDay.MVC.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "Sign In";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RaceDay | Sign In</title>
+
+    <style>
+            * {
+                box-sizing: border-box;
+            }
+
+            body {
+                margin: 0;
+                font-family: Arial, sans-serif;
+                color: #102d60;
+            }
+
+            .login-page {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                min-height: 100vh;
+            }
+
+            .login-image {
+                background: linear-gradient(rgba(0, 42, 130, .12), rgba(0, 42, 130, .12)), url('/images/raceday-login-panel.png') center center / cover no-repeat;
+                min-height: 100vh;
+            }
+
+            .login-right {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 45px 30px;
+                background: #fff;
+            }
+
+            .login-form {
+                width: 100%;
+                max-width: 410px;
+            }
+
+            .login-title {
+                font-family: Impact, "Arial Narrow", sans-serif;
+                font-size: 30px;
+                font-style: italic;
+                color: #092e70;
+                margin: 0 0 5px;
+                text-transform: uppercase;
+            }
+
+            .login-subtitle {
+                color: #71809b;
+                font-size: 14px;
+                margin-bottom: 24px;
+            }
+
+            .tabs {
+                display: flex;
+                background: #f0f5fc;
+                padding: 4px;
+                border-radius: 12px;
+                margin-bottom: 25px;
+            }
+
+            .tab {
+                width: 50%;
+                text-align: center;
+                padding: 11px;
+                text-decoration: none;
+                color: #17365f;
+                font-size: 13px;
+                border-radius: 9px;
+            }
+
+                .tab.active {
+                    background: white;
+                    color: #006dff;
+                    font-weight: bold;
+                    box-shadow: 0 2px 6px rgba(0,0,0,.06);
+                }
+
+            .form-group {
+                margin-bottom: 18px;
+            }
+
+                .form-group label {
+                    display: block;
+                    font-size: 13px;
+                    font-weight: 600;
+                    margin-bottom: 7px;
+                    color: #102d60;
+                }
+
+            .form-control {
+                width: 100%;
+                height: 45px;
+                border: 1px solid #d1ddeb;
+                border-radius: 10px;
+                padding: 10px 13px;
+                font-size: 14px;
+                outline: none;
+                box-shadow: 0 1px 3px rgba(0,0,0,.08);
+            }
+
+                .form-control:focus {
+                    border-color: #0786f5;
+                    box-shadow: 0 0 0 3px rgba(0,120,255,.1);
+                }
+
+            .validation-error {
+                color: #dc3545;
+                font-size: 12px;
+            }
+
+            .validation-summary {
+                color: #dc3545;
+                font-size: 13px;
+                margin-bottom: 12px;
+            }
+
+            .forgot-password {
+                display: block;
+                margin: 2px 0 17px;
+                color: #006dff;
+                font-size: 13px;
+                font-weight: 600;
+            }
+
+            .login-button {
+                width: 100%;
+                height: 42px;
+                border: none;
+                border-radius: 10px;
+                color: white;
+                font-weight: bold;
+                font-size: 14px;
+                cursor: pointer;
+                background: linear-gradient(100deg, #082c80, #0799f5);
+            }
+
+                .login-button:hover {
+                    opacity: .92;
+                }
+
+            .back-home {
+                display: block;
+                text-align: center;
+                margin-top: 27px;
+                color: #006dff;
+                font-size: 13px;
+                font-weight: 600;
+                text-decoration: none;
+            }
+
+            @@media (max-width: 800px) {
+                .login-page {
+                    grid-template-columns: 1fr;
+                }
+
+                .login-image {
+                    display: none;
+                }
+
+                .login-right {
+                    min-height: 100vh;
+                }
+            }
+    </style>
+</head>
+
+<body>
+    <div class="login-page">
+
+        <div class="login-image"></div>
+
+        <div class="login-right">
+            <div class="login-form">
+
+                <h1 class="login-title">Welcome Back</h1>
+
+                <p class="login-subtitle">
+                    Sign in to your Race Day account.
+                </p>
+
+                <div class="tabs">
+                    <a class="tab active"
+                       asp-controller="Account"
+                       asp-action="Login">
+                        Sign in
+                    </a>
+
+                    <a class="tab"
+                       asp-controller="Account"
+                       asp-action="Register">
+                        Sign up
+                    </a>
+                </div>
+
+                <form asp-controller="Account"
+                      asp-action="Login"
+                      method="post">
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="validation-summary">
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Email">Email</label>
+
+                        <input asp-for="Email"
+                               class="form-control"
+                               placeholder="" />
+
+                        <span asp-validation-for="Email"
+                              class="validation-error">
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Password">Password</label>
+
+                        <input asp-for="Password"
+                               type="password"
+                               class="form-control"
+                               placeholder="" />
+
+                        <span asp-validation-for="Password"
+                              class="validation-error">
+                        </span>
+                    </div>
+
+                    <a href="#" class="forgot-password">
+                        Forgot password?
+                    </a>
+
+                    <button type="submit" class="login-button">
+                        Sign in
+                    </button>
+
+                </form>
+
+                <a asp-controller="Account"
+                   asp-action="Login"
+                   class="back-home">
+                    ← Back to home
+                </a>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <partial name="_ValidationScriptsPartial" />
+</body>
+</html>
