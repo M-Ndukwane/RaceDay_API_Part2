@@ -1,0 +1,400 @@
+@model List<RaceDay.MVC.Models.ParticipantResultViewModel>
+
+@{
+    ViewData["Title"] = "My Results";
+    Layout = "_Layout";
+
+    var results = Model ?? new List<RaceDay.MVC.Models.ParticipantResultViewModel>();
+    var completedResults = results.Where(r => r.ResultStatus == "Finished").ToList();
+    var bestPosition = results.Where(r => r.Position > 0).Select(r => (int?)r.Position).Min();
+    var completedCount = completedResults.Count;
+    var totalCount = results.Count;
+}
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .results-page {
+            background: linear-gradient(
+                180deg, #eaf4ff 0%, #f8fbff 100%);
+            color: #09275e;
+            font-family: Arial, sans-serif;
+        }
+
+        /* PAGE */
+
+        .page-container {
+            max-width: 1260px;
+            margin: 0 auto;
+            padding: 42px 24px 70px;
+        }
+
+        .eyebrow {
+            color: #0066ed;
+            letter-spacing: 2px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        h1, h2, h3 {
+            font-family: Impact, "Arial Narrow", sans-serif;
+            font-style: italic;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-size: 44px;
+            margin: 0 0 8px;
+            color: #082c79;
+        }
+
+        .subtitle {
+            color: #637797;
+            font-size: 15px;
+        }
+
+        .page-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 20px;
+            margin-bottom: 34px;
+        }
+
+        .primary-button {
+            display: inline-block;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 18px;
+            background: linear-gradient(
+                100deg, #082e83, #079af5);
+            color: white;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .primary-button:hover {
+            opacity: .9;
+        }
+
+        /* STATISTICS */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0,1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid #d4e2f1;
+            border-radius: 16px;
+            padding: 21px;
+            box-shadow: 0 3px 8px rgba(15,55,100,.05);
+            min-height: 110px;
+        }
+
+        .stat-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #536988;
+            font-size: 14px;
+        }
+
+        .stat-icon {
+            color: #006bfa;
+            font-size: 23px;
+        }
+
+        .stat-value {
+            color: #082c79;
+            font-family: Impact, "Arial Narrow", sans-serif;
+            font-size: 34px;
+            margin-top: 12px;
+        }
+
+        /* EMPTY STATE */
+
+        .empty-state {
+            border: 1px dashed #d3e3f5;
+            border-radius: 16px;
+            padding: 56px 20px;
+            text-align: center;
+            background: rgba(255,255,255,.2);
+        }
+
+        .empty-icon {
+            background: #dceeff;
+            color: #0067e8;
+            border-radius: 50%;
+            width: 52px;
+            height: 52px;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 18px;
+            font-size: 25px;
+        }
+
+        .empty-state h2 {
+            font-size: 22px;
+            margin: 0 0 8px;
+        }
+
+        .empty-state p {
+            color: #637797;
+            font-size: 13px;
+            margin-bottom: 22px;
+        }
+
+        /* RESULT CARDS */
+
+        .results-list {
+            display: grid;
+            gap: 16px;
+        }
+
+        .result-card {
+            background: white;
+            border: 1px solid #d7e4f1;
+            border-radius: 15px;
+            padding: 23px;
+            box-shadow: 0 3px 10px rgba(10,50,100,.04);
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .result-title {
+            font-size: 24px;
+            margin: 0 0 8px;
+        }
+
+        .status {
+            display: inline-block;
+            border-radius: 20px;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: bold;
+            background: #e8f8ef;
+            color: #16834f;
+        }
+
+        .status.other {
+            background: #f0f3f7;
+            color: #65748b;
+        }
+
+        .result-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 17px;
+        }
+
+        .detail {
+            background: #f1f6fc;
+            padding: 12px 14px;
+            border-radius: 9px;
+            font-size: 13px;
+            color: #536988;
+        }
+
+        .detail strong {
+            color: #09275e;
+        }
+
+        .alert-danger {
+            padding: 14px;
+            background: #fff0f0;
+            color: #b42318;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* RESPONSIVE */
+
+        @@media (max-width: 800px) {
+            .page-container {
+                padding: 28px 16px;
+            }
+
+            .page-heading {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+        }
+    </style>
+
+    <main class="page-container results-page">
+
+        <div class="page-heading">
+
+            <div>
+                <div class="eyebrow">PARTICIPANT</div>
+
+                <h1>My Results</h1>
+
+                <p class="subtitle">
+                    Your race achievements, finishing positions and times.
+                </p>
+            </div>
+
+            <a asp-controller="Participant"
+               asp-action="Index"
+               class="primary-button">
+                Browse events
+            </a>
+
+        </div>
+
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert-danger">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-top">
+                    <span>Races completed</span>
+                    <span class="stat-icon">⚑</span>
+                </div>
+
+                <div class="stat-value">
+                    @completedCount
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-top">
+                    <span>Best position</span>
+                    <span class="stat-icon">🏅</span>
+                </div>
+
+                <div class="stat-value">
+                    @(bestPosition?.ToString() ?? "—")
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-top">
+                    <span>Results available</span>
+                    <span class="stat-icon">🏆</span>
+                </div>
+
+                <div class="stat-value">
+                    @totalCount
+                </div>
+            </div>
+
+        </section>
+
+        @if (!results.Any())
+        {
+            <div class="empty-state">
+
+                <div class="empty-icon">🏆</div>
+
+                <h2>No Results Yet</h2>
+
+                <p>
+                    Your race results will appear here once
+                    they have been published.
+                </p>
+
+                <a asp-controller="Participant"
+                   asp-action="Index"
+                   class="primary-button">
+                    Browse events
+                </a>
+
+            </div>
+        }
+        else
+        {
+            <section class="results-list">
+
+                @foreach (var result in results)
+                {
+                    <article class="result-card">
+
+                        <div class="result-header">
+
+                            <div>
+                                <h2 class="result-title">
+                                    @result.EventName
+                                </h2>
+
+                                <p class="subtitle">
+                                    Recorded on
+                                    @result.RecordedAt.ToString("dd MMM yyyy, HH:mm")
+                                </p>
+                            </div>
+
+                            <span class="status @(result.ResultStatus == "Finished" ? "" : "other")">
+                                @result.ResultStatus
+                            </span>
+
+                        </div>
+
+                        <div class="result-details">
+
+                            <div class="detail">
+                                <strong>Finishing Position:</strong>
+                                @(result.Position > 0
+                                    ? result.Position.ToString()
+                                    : "N/A")
+                            </div>
+
+                            <div class="detail">
+                                <strong>Finish Time:</strong>
+
+                                @if (result.FinishTimeSeconds.HasValue)
+                                {
+                                    var finishTime =
+                                        TimeSpan.FromSeconds(
+                                            result.FinishTimeSeconds.Value);
+
+                                    @finishTime.ToString(@"hh\:mm\:ss")
+                                }
+                                else
+                                {
+                                    <span>N/A</span>
+                                }
+                            </div>
+
+                            <div class="detail">
+                                <strong>Status:</strong>
+                                @result.ResultStatus
+                            </div>
+
+                        </div>
+
+                    </article>
+                }
+
+            </section>
+        }
+
+    </main>
