@@ -1,4 +1,4 @@
-﻿namespace RaceDay.API.Models;
+namespace RaceDay.API.Models;
 
 public class User
 {
@@ -8,6 +8,9 @@ public class User
     public string LastName { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string? PhoneNumber { get; set; }
+
+    // Stores the profile picture filename in Azure Blob Storage.
+    public string? ProfileImageFileName { get; set; }
 
     // Stores a password hash, never a plain-text password.
     public string PasswordHash { get; set; } = string.Empty;

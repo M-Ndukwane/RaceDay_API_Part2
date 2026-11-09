@@ -1,4 +1,4 @@
-﻿namespace RaceDay.API.Models;
+namespace RaceDay.API.Models;
 
 public class Event
 {
@@ -6,6 +6,7 @@ public class Event
 
     public string EventName { get; set; } = string.Empty;
     public string? Description { get; set; }
+    public string? ImageFileName { get; set; }
 
     public DateTime EventDate { get; set; }
     public TimeSpan StartTime { get; set; }

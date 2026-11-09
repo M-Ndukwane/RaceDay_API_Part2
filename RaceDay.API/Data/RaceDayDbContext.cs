@@ -1,4 +1,4 @@
-﻿
+
 
 using Microsoft.EntityFrameworkCore;
 using RaceDay.API.Models;
@@ -66,8 +66,13 @@ public class RaceDayDbContext : DbContext
                 .HasDatabaseName("UQ_Users_Email");
 
             entity.Property(u => u.PhoneNumber)
-                .HasColumnName("Phone number")
-                .HasMaxLength(30);
+    .HasColumnName("Phone number")
+    .HasMaxLength(30);
+
+            // Stores the profile picture filename in Azure Blob Storage.
+            entity.Property(u => u.ProfileImageFileName)
+                .HasMaxLength(255)
+                .IsRequired(false);
 
             entity.Property(u => u.PasswordHash)
                 .HasColumnName("password")
@@ -135,6 +140,10 @@ public class RaceDayDbContext : DbContext
 
             entity.Property(e => e.Description)
                 .HasMaxLength(1000);
+
+            entity.Property(e => e.ImageFileName)
+    .HasMaxLength(255)
+    .IsRequired(false);
 
             entity.Property(e => e.EventDate)
                 .HasColumnType("date")
@@ -281,4 +290,3 @@ public class RaceDayDbContext : DbContext
         });
     }
 }
-
