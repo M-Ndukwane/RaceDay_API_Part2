@@ -1,0 +1,319 @@
+
+@model RaceDay.MVC.Models.ManageEventViewModel
+
+@{
+    ViewData["Title"] = "Delete Event";
+}
+
+<style>
+    .delete-event-page {
+        max-width: 850px;
+        margin: 45px auto;
+        padding: 0 24px 60px;
+        color: #102447;
+    }
+
+    .delete-eyebrow {
+        color: #1265b9;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 3px;
+        margin-bottom: 8px;
+    }
+
+    .delete-title {
+        font-size: 34px;
+        font-weight: 900;
+        font-style: italic;
+        text-transform: uppercase;
+        color: #0b2453;
+        margin-bottom: 8px;
+    }
+
+    .delete-subtitle {
+        color: #728096;
+        font-size: 15px;
+        margin-bottom: 30px;
+    }
+
+    .delete-card {
+        background: #ffffff;
+        border: 1px solid #e5ebf4;
+        border-radius: 18px;
+        padding: 36px;
+        box-shadow: 0 8px 30px rgba(20, 48, 90, 0.05);
+    }
+
+    .delete-warning {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        background: #fff4f2;
+        border: 1px solid #ffd7d2;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 30px;
+    }
+
+    .warning-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #ffe0dc;
+        color: #c63838;
+        font-size: 22px;
+        font-weight: 800;
+        flex-shrink: 0;
+    }
+
+    .warning-title {
+        color: #b42323;
+        font-size: 16px;
+        font-weight: 800;
+        margin-bottom: 6px;
+    }
+
+    .warning-text {
+        color: #98524b;
+        font-size: 14px;
+        margin-bottom: 0;
+        line-height: 1.6;
+    }
+
+    .delete-section-title {
+        color: #0b2453;
+        font-size: 17px;
+        font-weight: 800;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #e9eef6;
+        margin-bottom: 22px;
+    }
+
+    .delete-event-name {
+        color: #0b2453;
+        font-size: 23px;
+        font-weight: 800;
+        margin-bottom: 20px;
+    }
+
+    .delete-details {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
+    }
+
+    .detail-label {
+        display: block;
+        color: #8290a4;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        margin-bottom: 7px;
+    }
+
+    .detail-value {
+        color: #203b64;
+        font-size: 14px;
+        font-weight: 650;
+        overflow-wrap: anywhere;
+    }
+
+    .detail-full {
+        grid-column: 1 / -1;
+    }
+
+    .delete-status {
+        display: inline-block;
+        background: #e7f7ee;
+        color: #16824a;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .delete-status.closed {
+        background: #f1f3f6;
+        color: #64748b;
+    }
+
+    .delete-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        padding-top: 25px;
+        margin-top: 30px;
+        border-top: 1px solid #e9eef6;
+    }
+
+    .delete-confirm-btn {
+        border: none;
+        background: #d83c3c;
+        color: white;
+        border-radius: 10px;
+        padding: 13px 24px;
+        font-weight: 750;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .delete-confirm-btn:hover {
+        background: #b92828;
+    }
+
+    .delete-cancel-btn {
+        display: inline-block;
+        background: #f3f6fb;
+        color: #52647e;
+        border: 1px solid #e1e7f0;
+        border-radius: 10px;
+        padding: 12px 23px;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .delete-cancel-btn:hover {
+        background: #e9eef6;
+        color: #102447;
+    }
+
+    @@media (max-width: 700px) {
+        .delete-event-page {
+            padding: 0 15px 40px;
+            margin-top: 25px;
+        }
+
+        .delete-title {
+            font-size: 28px;
+        }
+
+        .delete-card {
+            padding: 22px;
+        }
+
+        .delete-details {
+            grid-template-columns: 1fr;
+        }
+
+        .detail-full {
+            grid-column: auto;
+        }
+
+        .delete-actions {
+            flex-direction: column-reverse;
+        }
+
+        .delete-confirm-btn,
+        .delete-cancel-btn {
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style>
+
+<div class="delete-event-page">
+
+    <div class="delete-eyebrow">ORGANIZER / EVENTS</div>
+
+    <h1 class="delete-title">Delete Event</h1>
+
+    <p class="delete-subtitle">
+        Review the event details before confirming deletion.
+    </p>
+
+    <div class="delete-card">
+
+        <div class="delete-warning">
+
+            <div class="warning-icon">!</div>
+
+            <div>
+                <h3 class="warning-title">
+                    Are you sure you want to delete this event?
+                </h3>
+
+                <p class="warning-text">
+                    This action cannot be undone. The event will be
+                    permanently removed if it has no related records
+                    preventing deletion.
+                </p>
+            </div>
+
+        </div>
+
+        <h2 class="delete-section-title">Event Details</h2>
+
+        <h3 class="delete-event-name">
+            @Model.EventName
+        </h3>
+
+        <div class="delete-details">
+
+            <div class="detail-full">
+                <span class="detail-label">Description</span>
+
+                <div class="detail-value">
+                    @(string.IsNullOrWhiteSpace(Model.Description)
+                        ? "No description provided."
+                        : Model.Description)
+                </div>
+            </div>
+
+            <div>
+                <span class="detail-label">Race Date</span>
+
+                <div class="detail-value">
+                    @Model.EventDate.ToString("dd MMMM yyyy")
+                </div>
+            </div>
+
+            <div>
+                <span class="detail-label">Start Time</span>
+
+                <div class="detail-value">
+                    @Model.StartTime.ToString(@"hh\:mm")
+                </div>
+            </div>
+
+            <div>
+                <span class="detail-label">Status</span>
+
+                <span class="delete-status @(Model.Status == "Open" ? "" : "closed")">
+                    @Model.Status
+                </span>
+            </div>
+
+        </div>
+
+        <form asp-controller="Organiser"
+              asp-action="DeleteEvent"
+              asp-route-id="@Model.EventsID"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <div class="delete-actions">
+
+                <a asp-controller="Organiser"
+                   asp-action="ManageEvents"
+                   class="delete-cancel-btn">
+                    Cancel
+                </a>
+
+                <button type="submit"
+                        class="delete-confirm-btn">
+                    Delete Event
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>

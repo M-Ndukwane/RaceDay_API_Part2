@@ -1,0 +1,333 @@
+
+@model RaceDay.MVC.Models.ManageVenueViewModel
+
+@{
+    ViewData["Title"] = "Edit Venue";
+}
+
+<style>
+    .edit-venue-page {
+        max-width: 980px;
+        margin: 45px auto;
+        padding: 0 24px 60px;
+        color: #102447;
+    }
+
+    .edit-venue-eyebrow {
+        color: #1265b9;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 3px;
+        margin-bottom: 8px;
+    }
+
+    .edit-venue-title {
+        font-size: 34px;
+        font-weight: 900;
+        font-style: italic;
+        text-transform: uppercase;
+        color: #0b2453;
+        margin-bottom: 8px;
+    }
+
+    .edit-venue-subtitle {
+        color: #728096;
+        font-size: 15px;
+        margin-bottom: 30px;
+    }
+
+    .edit-venue-card {
+        background: #ffffff;
+        border: 1px solid #e5ebf4;
+        border-radius: 18px;
+        padding: 36px;
+        box-shadow: 0 8px 30px rgba(20, 48, 90, 0.05);
+    }
+
+    .edit-venue-section-title {
+        color: #0b2453;
+        font-size: 17px;
+        font-weight: 800;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #e9eef6;
+        margin-bottom: 25px;
+    }
+
+    .edit-venue-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
+    }
+
+    .edit-venue-group {
+        margin-bottom: 22px;
+    }
+
+    .edit-venue-full {
+        grid-column: 1 / -1;
+    }
+
+    .edit-venue-label {
+        display: block;
+        color: #203b64;
+        font-size: 13px;
+        font-weight: 750;
+        margin-bottom: 9px;
+    }
+
+    .edit-venue-input {
+        display: block;
+        width: 100%;
+        border: 1px solid #dce5f0;
+        background: #fbfcff;
+        border-radius: 10px;
+        padding: 12px 14px;
+        font-size: 14px;
+        color: #102447;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .edit-venue-input:focus {
+        outline: none;
+        border-color: #1684df;
+        box-shadow: 0 0 0 3px rgba(22, 132, 223, 0.12);
+        background: #ffffff;
+    }
+
+    .edit-venue-input::placeholder {
+        color: #9aa7b8;
+    }
+
+    .edit-venue-help {
+        display: block;
+        color: #8a98ac;
+        font-size: 12px;
+        margin-top: 7px;
+    }
+
+    .edit-venue-actions {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 12px;
+        border-top: 1px solid #e9eef6;
+        padding-top: 25px;
+        margin-top: 12px;
+    }
+
+    .edit-venue-save-btn {
+        border: none;
+        background: linear-gradient(110deg, #092b76, #0589ef);
+        color: #ffffff;
+        padding: 13px 25px;
+        border-radius: 10px;
+        font-weight: 750;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .edit-venue-save-btn:hover {
+        background: #064caa;
+    }
+
+    .edit-venue-cancel-btn {
+        display: inline-block;
+        padding: 12px 23px;
+        background: #f3f6fb;
+        color: #52647e;
+        border: 1px solid #e1e7f0;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 14px;
+    }
+
+    .edit-venue-cancel-btn:hover {
+        background: #e9eef6;
+        color: #102447;
+    }
+
+    @@media (max-width: 700px) {
+        .edit-venue-page {
+            margin-top: 25px;
+            padding: 0 15px 40px;
+        }
+
+        .edit-venue-title {
+            font-size: 28px;
+        }
+
+        .edit-venue-card {
+            padding: 22px;
+        }
+
+        .edit-venue-grid {
+            grid-template-columns: 1fr;
+            gap: 0;
+        }
+
+        .edit-venue-full {
+            grid-column: auto;
+        }
+
+        .edit-venue-actions {
+            flex-direction: column-reverse;
+            align-items: stretch;
+        }
+
+        .edit-venue-save-btn,
+        .edit-venue-cancel-btn {
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style>
+
+<div class="edit-venue-page">
+
+    <div class="edit-venue-eyebrow">
+        ORGANIZER / VENUES
+    </div>
+
+    <h1 class="edit-venue-title">
+        Edit Venue
+    </h1>
+
+    <p class="edit-venue-subtitle">
+        Update the location details for your race venue.
+    </p>
+
+    <div class="edit-venue-card">
+
+        <h2 class="edit-venue-section-title">
+            Venue Details
+        </h2>
+
+        <form asp-controller="Organiser"
+              asp-action="EditVenue"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <input type="hidden" asp-for="VenuesID" />
+
+            <div asp-validation-summary="All"
+                 class="text-danger mb-3"></div>
+
+            <div class="edit-venue-grid">
+
+                <div class="edit-venue-group edit-venue-full">
+
+                    <label asp-for="VenueName"
+                           class="edit-venue-label">
+                        Venue Name *
+                    </label>
+
+                    <input asp-for="VenueName"
+                           class="edit-venue-input"
+                           placeholder="Enter venue name"
+                           required />
+
+                    <span asp-validation-for="VenueName"
+                          class="text-danger"></span>
+
+                </div>
+
+                <div class="edit-venue-group edit-venue-full">
+
+                    <label asp-for="AddressLine"
+                           class="edit-venue-label">
+                        Street Address *
+                    </label>
+
+                    <input asp-for="AddressLine"
+                           class="edit-venue-input"
+                           placeholder="Enter street address"
+                           required />
+
+                    <span asp-validation-for="AddressLine"
+                          class="text-danger"></span>
+
+                </div>
+
+                <div class="edit-venue-group">
+
+                    <label asp-for="City"
+                           class="edit-venue-label">
+                        City *
+                    </label>
+
+                    <input asp-for="City"
+                           class="edit-venue-input"
+                           placeholder="Enter city"
+                           required />
+
+                    <span asp-validation-for="City"
+                          class="text-danger"></span>
+
+                </div>
+
+                <div class="edit-venue-group">
+
+                    <label asp-for="PostalCode"
+                           class="edit-venue-label">
+                        Postal Code *
+                    </label>
+
+                    <input asp-for="PostalCode"
+                           class="edit-venue-input"
+                           placeholder="Enter postal code"
+                           required />
+
+                    <span asp-validation-for="PostalCode"
+                          class="text-danger"></span>
+
+                </div>
+
+                <div class="edit-venue-group edit-venue-full">
+
+                    <label asp-for="Province"
+                           class="edit-venue-label">
+                        Province *
+                    </label>
+
+                    <input asp-for="Province"
+                           class="edit-venue-input"
+                           placeholder="Enter province"
+                           required />
+
+                    <span asp-validation-for="Province"
+                          class="text-danger"></span>
+
+                    <small class="edit-venue-help">
+                        Enter the province where the venue is located.
+                    </small>
+
+                </div>
+
+            </div>
+
+            <div class="edit-venue-actions">
+
+                <a asp-controller="Organiser"
+                   asp-action="ManageVenues"
+                   class="edit-venue-cancel-btn">
+                    Cancel
+                </a>
+
+                <button type="submit"
+                        class="edit-venue-save-btn">
+                    Save Changes
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

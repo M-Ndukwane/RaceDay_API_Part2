@@ -1,0 +1,346 @@
+
+@model RaceDay.MVC.Models.CreateResultViewModel
+
+@{
+    ViewData["Title"] = "Create Result";
+}
+
+<style>
+    .create-result-page {
+        max-width: 980px;
+        margin: 45px auto;
+        padding: 0 24px 60px;
+        color: #102447;
+    }
+
+    .create-result-eyebrow {
+        color: #1265b9;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 3px;
+        margin-bottom: 8px;
+    }
+
+    .create-result-title {
+        font-size: 34px;
+        font-weight: 900;
+        font-style: italic;
+        text-transform: uppercase;
+        color: #0b2453;
+        margin-bottom: 8px;
+    }
+
+    .create-result-subtitle {
+        color: #728096;
+        font-size: 15px;
+        margin-bottom: 30px;
+    }
+
+    .create-result-card {
+        background: #ffffff;
+        border: 1px solid #e5ebf4;
+        border-radius: 18px;
+        padding: 36px;
+        box-shadow: 0 8px 30px rgba(20, 48, 90, 0.05);
+    }
+
+    .create-result-section-title {
+        color: #0b2453;
+        font-size: 17px;
+        font-weight: 800;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #e9eef6;
+        margin-bottom: 25px;
+    }
+
+    .create-result-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
+    }
+
+    .create-result-group {
+        margin-bottom: 22px;
+        min-width: 0;
+    }
+
+    .create-result-full {
+        grid-column: 1 / -1;
+    }
+
+    .create-result-label {
+        display: block;
+        color: #203b64;
+        font-size: 13px;
+        font-weight: 750;
+        margin-bottom: 9px;
+    }
+
+    .create-result-input {
+        display: block;
+        width: 100%;
+        border: 1px solid #dce5f0;
+        background: #fbfcff;
+        border-radius: 10px;
+        padding: 12px 14px;
+        font-size: 14px;
+        color: #102447;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .create-result-input:focus {
+        outline: none;
+        border-color: #1684df;
+        box-shadow: 0 0 0 3px rgba(22, 132, 223, 0.12);
+        background: #ffffff;
+    }
+
+    .create-result-input::placeholder {
+        color: #9aa7b8;
+    }
+
+    .create-result-help {
+        display: block;
+        color: #8a98ac;
+        font-size: 12px;
+        margin-top: 7px;
+    }
+
+    .create-result-actions {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 12px;
+        border-top: 1px solid #e9eef6;
+        padding-top: 25px;
+        margin-top: 12px;
+    }
+
+    .create-result-submit-btn {
+        border: none;
+        background: linear-gradient(110deg, #092b76, #0589ef);
+        color: #ffffff;
+        padding: 13px 25px;
+        border-radius: 10px;
+        font-weight: 750;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .create-result-submit-btn:hover {
+        background: #064caa;
+    }
+
+    .create-result-cancel-btn {
+        display: inline-block;
+        padding: 12px 23px;
+        background: #f3f6fb;
+        color: #52647e;
+        border: 1px solid #e1e7f0;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 14px;
+    }
+
+    .create-result-cancel-btn:hover {
+        background: #e9eef6;
+        color: #102447;
+    }
+
+    @@media (max-width: 700px) {
+        .create-result-page {
+            margin-top: 25px;
+            padding: 0 15px 40px;
+        }
+
+        .create-result-title {
+            font-size: 28px;
+        }
+
+        .create-result-card {
+            padding: 22px;
+        }
+
+        .create-result-grid {
+            grid-template-columns: 1fr;
+            gap: 0;
+        }
+
+        .create-result-full {
+            grid-column: auto;
+        }
+
+        .create-result-actions {
+            flex-direction: column-reverse;
+            align-items: stretch;
+        }
+
+        .create-result-submit-btn,
+        .create-result-cancel-btn {
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style>
+
+<div class="create-result-page">
+
+    <div class="create-result-eyebrow">
+        ORGANIZER / RESULTS
+    </div>
+
+    <h1 class="create-result-title">
+        Record Result
+    </h1>
+
+    <p class="create-result-subtitle">
+        Record a participant's finishing position,
+        race time and result status.
+    </p>
+
+    <div class="create-result-card">
+
+        <h2 class="create-result-section-title">
+            Result Details
+        </h2>
+
+        <form asp-controller="Organiser"
+              asp-action="CreateResult"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger mb-3"></div>
+
+            <div class="create-result-grid">
+
+                <div class="create-result-group create-result-full">
+
+                    <label asp-for="EnrollmentsID"
+                           class="create-result-label">
+                        Enrollment ID *
+                    </label>
+
+                    <input asp-for="EnrollmentsID"
+                           type="number"
+                           min="1"
+                           class="create-result-input"
+                           placeholder="Enter participant enrollment ID"
+                           required />
+
+                    <span asp-validation-for="EnrollmentsID"
+                          class="text-danger"></span>
+
+                    <small class="create-result-help">
+                        Enter an existing Enrollment ID from
+                        the Manage Enrollments page.
+                    </small>
+
+                </div>
+
+                <div class="create-result-group">
+
+                    <label asp-for="Position"
+                           class="create-result-label">
+                        Finishing Position
+                    </label>
+
+                    <input asp-for="Position"
+                           type="number"
+                           min="1"
+                           class="create-result-input"
+                           placeholder="e.g. 1" />
+
+                    <span asp-validation-for="Position"
+                          class="text-danger"></span>
+
+                    <small class="create-result-help">
+                        Enter the participant's finishing position.
+                    </small>
+
+                </div>
+
+                <div class="create-result-group">
+
+                    <label asp-for="FinishTimeSeconds"
+                           class="create-result-label">
+                        Finish Time (Seconds)
+                    </label>
+
+                    <input asp-for="FinishTimeSeconds"
+                           type="number"
+                           min="0"
+                           class="create-result-input"
+                           placeholder="e.g. 3600" />
+
+                    <span asp-validation-for="FinishTimeSeconds"
+                          class="text-danger"></span>
+
+                    <small class="create-result-help">
+                        Enter the total finishing time in seconds.
+                    </small>
+
+                </div>
+
+                <div class="create-result-group create-result-full">
+
+                    <label asp-for="ResultStatus"
+                           class="create-result-label">
+                        Result Status *
+                    </label>
+
+                    <select asp-for="ResultStatus"
+                            class="create-result-input"
+                            required>
+
+                        <option value="Finished">
+                            Finished
+                        </option>
+
+                        <option value="DidNotFinish">
+                            Did Not Finish
+                        </option>
+
+                        <option value="Disqualified">
+                            Disqualified
+                        </option>
+
+                    </select>
+
+                    <span asp-validation-for="ResultStatus"
+                          class="text-danger"></span>
+
+                    <small class="create-result-help">
+                        Select the participant's final race status.
+                    </small>
+
+                </div>
+
+            </div>
+
+            <div class="create-result-actions">
+
+                <a asp-controller="Organiser"
+                   asp-action="ManageResults"
+                   class="create-result-cancel-btn">
+                    Cancel
+                </a>
+
+                <button type="submit"
+                        class="create-result-submit-btn">
+                    + Record Result
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

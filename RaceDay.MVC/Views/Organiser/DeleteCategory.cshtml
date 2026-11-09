@@ -1,0 +1,321 @@
+
+@model RaceDay.MVC.Models.ManageCategoryViewModel
+
+@{
+    ViewData["Title"] = "Delete Category";
+}
+
+<style>
+    .delete-category-page {
+        max-width: 850px;
+        margin: 45px auto;
+        padding: 0 24px 60px;
+        color: #102447;
+    }
+
+    .delete-category-eyebrow {
+        color: #1265b9;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 3px;
+        margin-bottom: 8px;
+    }
+
+    .delete-category-title {
+        font-size: 34px;
+        font-weight: 900;
+        font-style: italic;
+        text-transform: uppercase;
+        color: #0b2453;
+        margin-bottom: 8px;
+    }
+
+    .delete-category-subtitle {
+        color: #728096;
+        font-size: 15px;
+        margin-bottom: 30px;
+    }
+
+    .delete-category-card {
+        background: #ffffff;
+        border: 1px solid #e5ebf4;
+        border-radius: 18px;
+        padding: 36px;
+        box-shadow: 0 8px 30px rgba(20, 48, 90, 0.05);
+    }
+
+    .category-warning {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        background: #fff4f2;
+        border: 1px solid #ffd7d2;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 30px;
+    }
+
+    .category-warning-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #ffe0dc;
+        color: #c63838;
+        font-size: 22px;
+        font-weight: 800;
+        flex-shrink: 0;
+    }
+
+    .category-warning-title {
+        color: #b42323;
+        font-size: 16px;
+        font-weight: 800;
+        margin-bottom: 6px;
+    }
+
+    .category-warning-text {
+        color: #98524b;
+        font-size: 14px;
+        margin-bottom: 0;
+        line-height: 1.6;
+    }
+
+    .category-section-title {
+        color: #0b2453;
+        font-size: 17px;
+        font-weight: 800;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #e9eef6;
+        margin-bottom: 22px;
+    }
+
+    .category-delete-name {
+        color: #0b2453;
+        font-size: 23px;
+        font-weight: 800;
+        margin-bottom: 24px;
+    }
+
+    .category-delete-details {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 24px;
+    }
+
+    .category-detail-label {
+        display: block;
+        color: #8290a4;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        margin-bottom: 7px;
+    }
+
+    .category-detail-value {
+        color: #203b64;
+        font-size: 15px;
+        font-weight: 750;
+    }
+
+    .category-fee-badge {
+        display: inline-block;
+        background: #e9f3ff;
+        color: #1265b9;
+        padding: 8px 14px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 800;
+    }
+
+    .category-delete-actions {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 12px;
+        padding-top: 25px;
+        margin-top: 30px;
+        border-top: 1px solid #e9eef6;
+    }
+
+    .category-confirm-btn {
+        border: none;
+        background: #d83c3c;
+        color: #ffffff;
+        padding: 13px 24px;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 750;
+        cursor: pointer;
+    }
+
+    .category-confirm-btn:hover {
+        background: #b92828;
+    }
+
+    .category-cancel-btn {
+        display: inline-block;
+        background: #f3f6fb;
+        color: #52647e;
+        border: 1px solid #e1e7f0;
+        border-radius: 10px;
+        padding: 12px 23px;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .category-cancel-btn:hover {
+        background: #e9eef6;
+        color: #102447;
+    }
+
+    @@media (max-width: 700px) {
+        .delete-category-page {
+            padding: 0 15px 40px;
+            margin-top: 25px;
+        }
+
+        .delete-category-title {
+            font-size: 28px;
+        }
+
+        .delete-category-card {
+            padding: 22px;
+        }
+
+        .category-delete-details {
+            grid-template-columns: 1fr;
+        }
+
+        .category-delete-actions {
+            flex-direction: column-reverse;
+            align-items: stretch;
+        }
+
+        .category-confirm-btn,
+        .category-cancel-btn {
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style>
+
+<div class="delete-category-page">
+
+    <div class="delete-category-eyebrow">
+        ORGANIZER / CATEGORIES
+    </div>
+
+    <h1 class="delete-category-title">
+        Delete Category
+    </h1>
+
+    <p class="delete-category-subtitle">
+        Review the category details before confirming deletion.
+    </p>
+
+    <div class="delete-category-card">
+
+        <div class="category-warning">
+
+            <div class="category-warning-icon">
+                !
+            </div>
+
+            <div>
+                <h3 class="category-warning-title">
+                    Are you sure you want to delete this category?
+                </h3>
+
+                <p class="category-warning-text">
+                    This action cannot be undone.
+                    The category will be permanently removed
+                    if deletion is permitted by the system.
+                </p>
+            </div>
+
+        </div>
+
+        <h2 class="category-section-title">
+            Category Details
+        </h2>
+
+        <h3 class="category-delete-name">
+            @Model.CategoryName
+        </h3>
+
+        <div class="category-delete-details">
+
+            <div>
+                <span class="category-detail-label">
+                    Category ID
+                </span>
+
+                <div class="category-detail-value">
+                    #@Model.CategoriesID
+                </div>
+            </div>
+
+            <div>
+                <span class="category-detail-label">
+                    Event ID
+                </span>
+
+                <div class="category-detail-value">
+                    #@Model.EventsID
+                </div>
+            </div>
+
+            <div>
+                <span class="category-detail-label">
+                    Entry Fee
+                </span>
+
+                <span class="category-fee-badge">
+                    R @Model.EntryFee.ToString("N2")
+                </span>
+            </div>
+
+            <div>
+                <span class="category-detail-label">
+                    Maximum Participants
+                </span>
+
+                <div class="category-detail-value">
+                    @Model.MaxParticipants
+                </div>
+            </div>
+
+        </div>
+
+        <form asp-controller="Organiser"
+              asp-action="DeleteCategory"
+              asp-route-id="@Model.CategoriesID"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <div class="category-delete-actions">
+
+                <a asp-controller="Organiser"
+                   asp-action="ManageCategories"
+                   class="category-cancel-btn">
+                    Cancel
+                </a>
+
+                <button type="submit"
+                        class="category-confirm-btn">
+                    Delete Category
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>

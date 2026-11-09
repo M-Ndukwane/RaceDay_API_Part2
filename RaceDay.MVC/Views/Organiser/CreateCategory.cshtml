@@ -1,0 +1,336 @@
+
+@model RaceDay.MVC.Models.ManageCategoryViewModel
+
+@{
+    ViewData["Title"] = "Create Category";
+}
+
+<style>
+    .create-category-page {
+        max-width: 980px;
+        margin: 45px auto;
+        padding: 0 24px 60px;
+        color: #102447;
+    }
+
+    .create-category-eyebrow {
+        color: #1265b9;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 3px;
+        margin-bottom: 8px;
+    }
+
+    .create-category-title {
+        font-size: 34px;
+        font-weight: 900;
+        font-style: italic;
+        text-transform: uppercase;
+        color: #0b2453;
+        margin-bottom: 8px;
+    }
+
+    .create-category-subtitle {
+        color: #728096;
+        font-size: 15px;
+        margin-bottom: 30px;
+    }
+
+    .create-category-card {
+        background: #ffffff;
+        border: 1px solid #e5ebf4;
+        border-radius: 18px;
+        padding: 36px;
+        box-shadow: 0 8px 30px rgba(20, 48, 90, 0.05);
+    }
+
+    .create-category-section-title {
+        color: #0b2453;
+        font-size: 17px;
+        font-weight: 800;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #e9eef6;
+        margin-bottom: 25px;
+    }
+
+    .create-category-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
+    }
+
+    .create-category-group {
+        margin-bottom: 22px;
+    }
+
+    .create-category-full {
+        grid-column: 1 / -1;
+    }
+
+    .create-category-label {
+        display: block;
+        color: #203b64;
+        font-size: 13px;
+        font-weight: 750;
+        margin-bottom: 9px;
+    }
+
+    .create-category-input {
+        width: 100%;
+        border: 1px solid #dce5f0;
+        background: #fbfcff;
+        border-radius: 10px;
+        padding: 12px 14px;
+        font-size: 14px;
+        color: #102447;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .create-category-input:focus {
+        outline: none;
+        border-color: #1684df;
+        box-shadow: 0 0 0 3px rgba(22, 132, 223, 0.12);
+        background: #ffffff;
+    }
+
+    .create-category-input::placeholder {
+        color: #9aa7b8;
+    }
+
+    .create-category-help {
+        display: block;
+        color: #8a98ac;
+        font-size: 12px;
+        margin-top: 7px;
+    }
+
+    .create-category-actions {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 12px;
+        border-top: 1px solid #e9eef6;
+        padding-top: 25px;
+        margin-top: 12px;
+    }
+
+    .create-category-submit-btn {
+        border: none;
+        background: linear-gradient(110deg, #092b76, #0589ef);
+        color: #ffffff;
+        padding: 13px 25px;
+        border-radius: 10px;
+        font-weight: 750;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .create-category-submit-btn:hover {
+        background: #064caa;
+    }
+
+    .create-category-cancel-btn {
+        display: inline-block;
+        padding: 12px 23px;
+        background: #f3f6fb;
+        color: #52647e;
+        border: 1px solid #e1e7f0;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 14px;
+    }
+
+    .create-category-cancel-btn:hover {
+        background: #e9eef6;
+        color: #102447;
+    }
+
+    @@media (max-width: 700px) {
+        .create-category-page {
+            margin-top: 25px;
+            padding: 0 15px 40px;
+        }
+
+        .create-category-title {
+            font-size: 28px;
+        }
+
+        .create-category-card {
+            padding: 22px;
+        }
+
+        .create-category-grid {
+            grid-template-columns: 1fr;
+            gap: 0;
+        }
+
+        .create-category-full {
+            grid-column: auto;
+        }
+
+        .create-category-actions {
+            flex-direction: column-reverse;
+            align-items: stretch;
+        }
+
+        .create-category-submit-btn,
+        .create-category-cancel-btn {
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style>
+
+<div class="create-category-page">
+
+    <div class="create-category-eyebrow">
+        ORGANIZER / CATEGORIES
+    </div>
+
+    <h1 class="create-category-title">
+        New Category
+    </h1>
+
+    <p class="create-category-subtitle">
+        Create a new race category and set its registration details.
+    </p>
+
+    <div class="create-category-card">
+
+        <h2 class="create-category-section-title">
+            Category Details
+        </h2>
+
+        <form asp-controller="Organiser"
+              asp-action="CreateCategory"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="All"
+                 class="text-danger mb-3"></div>
+
+            <div class="create-category-grid">
+
+                <div class="create-category-group create-category-full">
+
+                    <label asp-for="EventsID"
+                           class="create-category-label">
+                        Select Event *
+                    </label>
+
+                    <select asp-for="EventsID"
+                            class="create-category-input"
+                            required>
+
+                        <option value="">
+                            Select an event
+                        </option>
+
+                        @foreach (var eventItem in Model.Events)
+                        {
+                            <option value="@eventItem.EventsID">
+                                @eventItem.EventName
+                            </option>
+                        }
+
+                    </select>
+
+                    <span asp-validation-for="EventsID"
+                          class="text-danger"></span>
+
+                    <small class="create-category-help">
+                        Choose the race event this category will belong to.
+                    </small>
+
+                </div>
+
+                <div class="create-category-group create-category-full">
+
+                    <label asp-for="CategoryName"
+                           class="create-category-label">
+                        Category Name *
+                    </label>
+
+                    <input asp-for="CategoryName"
+                           class="create-category-input"
+                           placeholder="e.g. 10km Fun Run"
+                           required />
+
+                    <span asp-validation-for="CategoryName"
+                          class="text-danger"></span>
+
+                </div>
+
+                <div class="create-category-group">
+
+                    <label asp-for="EntryFee"
+                           class="create-category-label">
+                        Entry Fee (R) *
+                    </label>
+
+                    <input asp-for="EntryFee"
+                           type="number"
+                           step="0.01"
+                           min="0"
+                           class="create-category-input"
+                           required />
+
+                    <span asp-validation-for="EntryFee"
+                          class="text-danger"></span>
+
+                    <small class="create-category-help">
+                        Enter 0 for a free category.
+                    </small>
+
+                </div>
+
+                <div class="create-category-group">
+
+                    <label asp-for="MaxParticipants"
+                           class="create-category-label">
+                        Maximum Participants *
+                    </label>
+
+                    <input asp-for="MaxParticipants"
+                           type="number"
+                           min="1"
+                           class="create-category-input"
+                           required />
+
+                    <span asp-validation-for="MaxParticipants"
+                          class="text-danger"></span>
+
+                    <small class="create-category-help">
+                        Set the maximum number of participants allowed.
+                    </small>
+
+                </div>
+
+            </div>
+
+            <div class="create-category-actions">
+
+                <a asp-controller="Organiser"
+                   asp-action="ManageCategories"
+                   class="create-category-cancel-btn">
+                    Cancel
+                </a>
+
+                <button type="submit"
+                        class="create-category-submit-btn">
+                    + Create Category
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

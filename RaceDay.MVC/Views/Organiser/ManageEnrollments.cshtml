@@ -1,0 +1,487 @@
+
+@model List<RaceDay.MVC.Models.ManageEnrollmentViewModel>
+
+@{
+    ViewData["Title"] = "Manage Enrollments";
+}
+
+<style>
+    .manage-enrollments-page {
+        max-width: 1350px;
+        margin: 45px auto;
+        padding: 0 24px 60px;
+        color: #102447;
+    }
+
+    .enrollments-header {
+        margin-bottom: 30px;
+    }
+
+    .enrollments-eyebrow {
+        color: #1265b9;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 3px;
+        margin-bottom: 8px;
+    }
+
+    .enrollments-title {
+        color: #0b2453;
+        font-size: 34px;
+        font-weight: 900;
+        font-style: italic;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+    }
+
+    .enrollments-subtitle {
+        color: #728096;
+        font-size: 15px;
+        margin-bottom: 0;
+    }
+
+    .enrollments-summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #ffffff;
+        border: 1px solid #e5ebf4;
+        border-radius: 15px;
+        padding: 22px 28px;
+        margin-bottom: 25px;
+        box-shadow: 0 5px 20px rgba(20, 48, 90, 0.04);
+    }
+
+    .enrollments-summary-label {
+        color: #728096;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 6px;
+    }
+
+    .enrollments-summary-number {
+        color: #0b2453;
+        font-size: 30px;
+        font-weight: 900;
+        margin-bottom: 0;
+    }
+
+    .enrollments-summary-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 13px;
+        background: #eaf4ff;
+        color: #1265b9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 25px;
+        font-weight: 800;
+    }
+
+    .enrollments-table-card {
+        background: #ffffff;
+        border: 1px solid #e5ebf4;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 8px 30px rgba(20, 48, 90, 0.05);
+    }
+
+    .enrollments-table-header {
+        padding: 23px 28px;
+        border-bottom: 1px solid #e9eef6;
+    }
+
+    .enrollments-table-title {
+        color: #0b2453;
+        font-size: 17px;
+        font-weight: 800;
+        margin: 0;
+    }
+
+    .enrollments-table-wrapper {
+        overflow-x: auto;
+    }
+
+    .enrollments-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0;
+    }
+
+    .enrollments-table thead {
+        background: #f5f8fc;
+    }
+
+    .enrollments-table th {
+        padding: 17px 15px;
+        color: #657791;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        text-align: left;
+        white-space: nowrap;
+        border-bottom: 1px solid #e9eef6;
+    }
+
+    .enrollments-table td {
+        padding: 18px 15px;
+        color: #52647e;
+        font-size: 13px;
+        vertical-align: middle;
+        border-bottom: 1px solid #edf1f7;
+    }
+
+    .enrollments-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .enrollments-table tbody tr:hover {
+        background: #f9fbff;
+    }
+
+    .enrollment-id {
+        color: #8795a8;
+        font-weight: 700;
+    }
+
+    .enrollment-participant {
+        color: #0b2453;
+        font-size: 14px;
+        font-weight: 800;
+    }
+
+    .enrollment-email {
+        color: #728096;
+        font-size: 12px;
+        overflow-wrap: anywhere;
+    }
+
+    .enrollment-event {
+        color: #203b64;
+        font-weight: 750;
+    }
+
+    .enrollment-category {
+        display: inline-block;
+        padding: 6px 10px;
+        background: #eaf4ff;
+        color: #1265b9;
+        border-radius: 7px;
+        font-size: 12px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .enrollment-fee {
+        color: #0b2453;
+        font-weight: 800;
+        white-space: nowrap;
+    }
+
+    .enrollment-status {
+        display: inline-block;
+        padding: 6px 11px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 800;
+        white-space: nowrap;
+    }
+
+    .enrollment-status-confirmed {
+        background: #e7f8ee;
+        color: #16834a;
+    }
+
+    .enrollment-status-other {
+        background: #fff3df;
+        color: #a66b13;
+    }
+
+    .enrollment-contact-name {
+        color: #203b64;
+        font-weight: 750;
+        margin-bottom: 4px;
+    }
+
+    .enrollment-contact-phone {
+        color: #728096;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+
+    .enrollments-empty {
+        text-align: center;
+        padding: 65px 20px;
+    }
+
+    .enrollments-empty-icon {
+        font-size: 42px;
+        margin-bottom: 15px;
+    }
+
+    .enrollments-empty-title {
+        color: #0b2453;
+        font-size: 20px;
+        font-weight: 800;
+        margin-bottom: 8px;
+    }
+
+    .enrollments-empty-text {
+        color: #728096;
+        font-size: 14px;
+        margin-bottom: 0;
+    }
+
+    .enrollments-footer {
+        margin-top: 30px;
+    }
+
+    .enrollments-back-btn {
+        display: inline-block;
+        padding: 12px 22px;
+        background: #f3f6fb;
+        color: #52647e;
+        border: 1px solid #e1e7f0;
+        border-radius: 10px;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .enrollments-back-btn:hover {
+        background: #e9eef6;
+        color: #102447;
+    }
+
+    @@media (max-width: 700px) {
+        .manage-enrollments-page {
+            margin-top: 25px;
+            padding: 0 15px 40px;
+        }
+
+        .enrollments-title {
+            font-size: 28px;
+        }
+
+        .enrollments-summary {
+            padding: 20px;
+        }
+
+        .enrollments-table-header {
+            padding: 20px;
+        }
+
+        .enrollments-table th,
+        .enrollments-table td {
+            padding: 14px 12px;
+        }
+    }
+</style>
+
+<div class="manage-enrollments-page">
+
+    <div class="enrollments-header">
+
+        <div class="enrollments-eyebrow">
+            ORGANIZER / ENROLLMENTS
+        </div>
+
+        <h1 class="enrollments-title">
+            Manage Enrollments
+        </h1>
+
+        <p class="enrollments-subtitle">
+            View and monitor participant registrations
+            across your race events.
+        </p>
+
+    </div>
+
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Error"]
+        </div>
+    }
+
+    <div class="enrollments-summary">
+
+        <div>
+            <div class="enrollments-summary-label">
+                Total Participant Enrollments
+            </div>
+
+            <h2 class="enrollments-summary-number">
+                @(Model?.Count ?? 0)
+            </h2>
+        </div>
+
+        <div class="enrollments-summary-icon">
+            &#9786;
+        </div>
+
+    </div>
+
+    <div class="enrollments-table-card">
+
+        <div class="enrollments-table-header">
+
+            <h2 class="enrollments-table-title">
+                Participant Registrations
+            </h2>
+
+        </div>
+
+        @if (Model != null && Model.Any())
+        {
+            <div class="enrollments-table-wrapper">
+
+                <table class="enrollments-table">
+
+                    <thead>
+                        <tr>
+                            <th>Enrollment ID</th>
+                            <th>Participant</th>
+                            <th>Email</th>
+                            <th>Event</th>
+                            <th>Category</th>
+                            <th>Entry Fee</th>
+                            <th>Enrolled At</th>
+                            <th>Status</th>
+                            <th>Emergency Contact</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var enrollment in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    <span class="enrollment-id">
+                                        #@enrollment.EnrollmentsID
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="enrollment-participant">
+                                        @enrollment.ParticipantName
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="enrollment-email">
+                                        @enrollment.ParticipantEmail
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="enrollment-event">
+                                        @enrollment.EventName
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="enrollment-category">
+                                        @enrollment.CategoryName
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="enrollment-fee">
+                                        R @enrollment.EntryFee.ToString("N2")
+                                    </span>
+                                </td>
+
+                                <td>
+                                    @enrollment.EnrolledAt.ToString("dd/MM/yyyy HH:mm")
+                                </td>
+
+                                <td>
+                                    @if (string.Equals(
+                                        enrollment.Status,
+                                        "Confirmed",
+                                        StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        <span class="enrollment-status enrollment-status-confirmed">
+                                            @enrollment.Status
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="enrollment-status enrollment-status-other">
+                                            @enrollment.Status
+                                        </span>
+                                    }
+                                </td>
+
+                                <td>
+                                    <div class="enrollment-contact-name">
+                                        @enrollment.EmergencyContactName
+                                    </div>
+
+                                    <div class="enrollment-contact-phone">
+                                        @enrollment.EmergencyContactPhone
+                                    </div>
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+        else
+        {
+            <div class="enrollments-empty">
+
+                <div class="enrollments-empty-icon">
+                    &#9786;
+                </div>
+
+                <h3 class="enrollments-empty-title">
+                    No Enrollments Yet
+                </h3>
+
+                <p class="enrollments-empty-text">
+                    No participant enrollments have been recorded yet.
+                    Registrations will appear here when participants
+                    enroll in your race events.
+                </p>
+
+            </div>
+        }
+
+    </div>
+
+    <div class="enrollments-footer">
+
+        <a asp-controller="Organiser"
+           asp-action="Index"
+           class="enrollments-back-btn">
+            Back to Dashboard
+        </a>
+
+    </div>
+
+</div>

@@ -1,0 +1,497 @@
+
+@model List<RaceDay.MVC.Models.VenueViewModel>
+
+@{
+    ViewData["Title"] = "Manage Venues";
+}
+
+<style>
+    .manage-venues-page {
+        max-width: 1250px;
+        margin: 45px auto;
+        padding: 0 24px 60px;
+        color: #102447;
+    }
+
+    .venues-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .venues-eyebrow {
+        color: #1265b9;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 3px;
+        margin-bottom: 8px;
+    }
+
+    .venues-title {
+        color: #0b2453;
+        font-size: 34px;
+        font-weight: 900;
+        font-style: italic;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+    }
+
+    .venues-subtitle {
+        color: #728096;
+        font-size: 15px;
+        margin-bottom: 0;
+    }
+
+    .venues-create-btn {
+        display: inline-block;
+        background: linear-gradient(110deg, #092b76, #0589ef);
+        color: white;
+        padding: 13px 24px;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 750;
+        text-decoration: none;
+        white-space: nowrap;
+    }
+
+    .venues-create-btn:hover {
+        color: white;
+        background: #064caa;
+    }
+
+    .venues-summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: white;
+        border: 1px solid #e5ebf4;
+        border-radius: 15px;
+        padding: 22px 28px;
+        margin-bottom: 25px;
+        box-shadow: 0 5px 20px rgba(20, 48, 90, 0.04);
+    }
+
+    .venues-summary-label {
+        color: #728096;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 6px;
+    }
+
+    .venues-summary-number {
+        color: #0b2453;
+        font-size: 30px;
+        font-weight: 900;
+        margin-bottom: 0;
+    }
+
+    .venues-summary-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 13px;
+        background: #eaf4ff;
+        color: #1265b9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+    }
+
+    .venues-table-card {
+        background: #ffffff;
+        border: 1px solid #e5ebf4;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 8px 30px rgba(20, 48, 90, 0.05);
+    }
+
+    .venues-table-header {
+        padding: 23px 28px;
+        border-bottom: 1px solid #e9eef6;
+    }
+
+    .venues-table-title {
+        color: #0b2453;
+        font-size: 17px;
+        font-weight: 800;
+        margin: 0;
+    }
+
+    .venues-table-wrapper {
+        overflow-x: auto;
+    }
+
+    .venues-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0;
+    }
+
+    .venues-table thead {
+        background: #f5f8fc;
+    }
+
+    .venues-table th {
+        padding: 17px 16px;
+        color: #657791;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        text-align: left;
+        white-space: nowrap;
+        border-bottom: 1px solid #e9eef6;
+    }
+
+    .venues-table td {
+        padding: 18px 16px;
+        color: #52647e;
+        font-size: 13px;
+        vertical-align: middle;
+        border-bottom: 1px solid #edf1f7;
+    }
+
+    .venues-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .venues-table tbody tr:hover {
+        background: #f9fbff;
+    }
+
+    .venue-id {
+        color: #8795a8;
+        font-weight: 700;
+    }
+
+    .venue-name {
+        color: #0b2453;
+        font-weight: 800;
+        font-size: 14px;
+    }
+
+    .venue-city-badge {
+        display: inline-block;
+        background: #eaf4ff;
+        color: #1265b9;
+        border-radius: 7px;
+        padding: 6px 10px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .venue-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        white-space: nowrap;
+    }
+
+    .venue-edit-btn {
+        display: inline-block;
+        padding: 8px 13px;
+        background: #eaf4ff;
+        color: #1265b9;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 750;
+    }
+
+    .venue-edit-btn:hover {
+        background: #d8eaff;
+        color: #064caa;
+    }
+
+    .venue-delete-btn {
+        display: inline-block;
+        padding: 8px 13px;
+        background: #fff0f0;
+        color: #c63838;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 750;
+    }
+
+    .venue-delete-btn:hover {
+        background: #ffe0e0;
+        color: #a51d1d;
+    }
+
+    .venues-empty {
+        text-align: center;
+        padding: 65px 20px;
+    }
+
+    .venues-empty-icon {
+        font-size: 42px;
+        margin-bottom: 15px;
+    }
+
+    .venues-empty-title {
+        color: #0b2453;
+        font-size: 20px;
+        font-weight: 800;
+        margin-bottom: 8px;
+    }
+
+    .venues-empty-text {
+        color: #728096;
+        font-size: 14px;
+        margin-bottom: 22px;
+    }
+
+    .venues-footer {
+        margin-top: 30px;
+    }
+
+    .venues-back-btn {
+        display: inline-block;
+        padding: 12px 22px;
+        background: #f3f6fb;
+        color: #52647e;
+        border: 1px solid #e1e7f0;
+        border-radius: 10px;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .venues-back-btn:hover {
+        background: #e9eef6;
+        color: #102447;
+    }
+
+    @@media (max-width: 700px) {
+        .manage-venues-page {
+            margin-top: 25px;
+            padding: 0 15px 40px;
+        }
+
+        .venues-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .venues-title {
+            font-size: 28px;
+        }
+
+        .venues-create-btn {
+            width: 100%;
+            text-align: center;
+        }
+
+        .venues-summary {
+            padding: 20px;
+        }
+
+        .venues-table-header {
+            padding: 20px;
+        }
+
+        .venues-table th,
+        .venues-table td {
+            padding: 14px 12px;
+        }
+    }
+</style>
+
+<div class="manage-venues-page">
+
+    <div class="venues-header">
+
+        <div>
+            <div class="venues-eyebrow">
+                ORGANIZER / VENUES
+            </div>
+
+            <h1 class="venues-title">
+                Manage Venues
+            </h1>
+
+            <p class="venues-subtitle">
+                Manage race locations and venue information.
+            </p>
+        </div>
+
+        <a asp-controller="Organiser"
+           asp-action="CreateVenue"
+           class="venues-create-btn">
+            + New Venue
+        </a>
+
+    </div>
+
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Error"]
+        </div>
+    }
+
+    <div class="venues-summary">
+
+        <div>
+            <div class="venues-summary-label">
+                Total Venues
+            </div>
+
+            <h2 class="venues-summary-number">
+                @(Model?.Count ?? 0)
+            </h2>
+        </div>
+
+        <div class="venues-summary-icon">
+            &#9678;
+        </div>
+
+    </div>
+
+    <div class="venues-table-card">
+
+        <div class="venues-table-header">
+            <h2 class="venues-table-title">
+                Your Venues
+            </h2>
+        </div>
+
+        @if (Model != null && Model.Any())
+        {
+            <div class="venues-table-wrapper">
+
+                <table class="venues-table">
+
+                    <thead>
+                        <tr>
+                            <th>Venue ID</th>
+                            <th>Venue Name</th>
+                            <th>Address</th>
+                            <th>City</th>
+                            <th>Postal Code</th>
+                            <th>Province</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var venue in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    <span class="venue-id">
+                                        #@venue.VenuesID
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="venue-name">
+                                        @venue.VenueName
+                                    </span>
+                                </td>
+
+                                <td>
+                                    @venue.AddressLine
+                                </td>
+
+                                <td>
+                                    <span class="venue-city-badge">
+                                        @venue.City
+                                    </span>
+                                </td>
+
+                                <td>
+                                    @venue.PostalCode
+                                </td>
+
+                                <td>
+                                    @venue.Province
+                                </td>
+
+                                <td>
+                                    <div class="venue-actions">
+
+                                        <a asp-controller="Organiser"
+                                           asp-action="EditVenue"
+                                           asp-route-id="@venue.VenuesID"
+                                           class="venue-edit-btn">
+                                            Edit
+                                        </a>
+
+                                        <a asp-controller="Organiser"
+                                           asp-action="DeleteVenue"
+                                           asp-route-id="@venue.VenuesID"
+                                           class="venue-delete-btn">
+                                            Delete
+                                        </a>
+
+                                    </div>
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+        else
+        {
+            <div class="venues-empty">
+
+                <div class="venues-empty-icon">
+                    &#9678;
+                </div>
+
+                <h3 class="venues-empty-title">
+                    No Venues Yet
+                </h3>
+
+                <p class="venues-empty-text">
+                    You haven't added any race venues yet.
+                    Create your first venue to get started.
+                </p>
+
+                <a asp-controller="Organiser"
+                   asp-action="CreateVenue"
+                   class="venues-create-btn">
+                    + Create Venue
+                </a>
+
+            </div>
+        }
+
+    </div>
+
+    <div class="venues-footer">
+
+        <a asp-controller="Organiser"
+           asp-action="Index"
+           class="venues-back-btn">
+            Back to Dashboard
+        </a>
+
+    </div>
+
+</div>

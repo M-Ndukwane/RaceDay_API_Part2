@@ -1,0 +1,547 @@
+
+@model List<RaceDay.MVC.Models.ResultViewModel>
+
+@{
+    ViewData["Title"] = "Manage Results";
+}
+
+<style>
+    .manage-results-page {
+        max-width: 1250px;
+        margin: 45px auto;
+        padding: 0 24px 60px;
+        color: #102447;
+    }
+
+    .results-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .results-eyebrow {
+        color: #1265b9;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 3px;
+        margin-bottom: 8px;
+    }
+
+    .results-title {
+        color: #0b2453;
+        font-size: 34px;
+        font-weight: 900;
+        font-style: italic;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+    }
+
+    .results-subtitle {
+        color: #728096;
+        font-size: 15px;
+        margin-bottom: 0;
+    }
+
+    .results-create-btn {
+        display: inline-block;
+        background: linear-gradient(110deg, #092b76, #0589ef);
+        color: #ffffff;
+        padding: 13px 24px;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 750;
+        text-decoration: none;
+        white-space: nowrap;
+    }
+
+    .results-create-btn:hover {
+        background: #064caa;
+        color: #ffffff;
+    }
+
+    .results-summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #ffffff;
+        border: 1px solid #e5ebf4;
+        border-radius: 15px;
+        padding: 22px 28px;
+        margin-bottom: 25px;
+        box-shadow: 0 5px 20px rgba(20, 48, 90, 0.04);
+    }
+
+    .results-summary-label {
+        color: #728096;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 6px;
+    }
+
+    .results-summary-number {
+        color: #0b2453;
+        font-size: 30px;
+        font-weight: 900;
+        margin-bottom: 0;
+    }
+
+    .results-summary-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 13px;
+        background: #eaf4ff;
+        color: #1265b9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 25px;
+        font-weight: 800;
+    }
+
+    .results-table-card {
+        background: #ffffff;
+        border: 1px solid #e5ebf4;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 8px 30px rgba(20, 48, 90, 0.05);
+    }
+
+    .results-table-header {
+        padding: 23px 28px;
+        border-bottom: 1px solid #e9eef6;
+    }
+
+    .results-table-title {
+        color: #0b2453;
+        font-size: 17px;
+        font-weight: 800;
+        margin: 0;
+    }
+
+    .results-table-wrapper {
+        overflow-x: auto;
+    }
+
+    .results-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0;
+    }
+
+    .results-table thead {
+        background: #f5f8fc;
+    }
+
+    .results-table th {
+        padding: 17px 16px;
+        color: #657791;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        text-align: left;
+        white-space: nowrap;
+        border-bottom: 1px solid #e9eef6;
+    }
+
+    .results-table td {
+        padding: 18px 16px;
+        color: #52647e;
+        font-size: 13px;
+        vertical-align: middle;
+        border-bottom: 1px solid #edf1f7;
+    }
+
+    .results-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .results-table tbody tr:hover {
+        background: #f9fbff;
+    }
+
+    .result-id {
+        color: #8795a8;
+        font-weight: 700;
+    }
+
+    .result-enrollment {
+        color: #0b2453;
+        font-weight: 800;
+        font-size: 14px;
+    }
+
+    .result-position {
+        display: inline-block;
+        background: #eaf4ff;
+        color: #1265b9;
+        border-radius: 7px;
+        padding: 6px 10px;
+        font-size: 12px;
+        font-weight: 800;
+    }
+
+    .result-status {
+        display: inline-block;
+        padding: 6px 11px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 800;
+        white-space: nowrap;
+    }
+
+    .result-status-finished {
+        background: #e7f8ee;
+        color: #16834a;
+    }
+
+    .result-status-other {
+        background: #fff3df;
+        color: #a66b13;
+    }
+
+    .result-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        white-space: nowrap;
+    }
+
+    .result-edit-btn {
+        display: inline-block;
+        padding: 8px 13px;
+        background: #eaf4ff;
+        color: #1265b9;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 750;
+    }
+
+    .result-edit-btn:hover {
+        background: #d8eaff;
+        color: #064caa;
+    }
+
+    .result-delete-btn {
+        display: inline-block;
+        padding: 8px 13px;
+        background: #fff0f0;
+        color: #c63838;
+        border: none;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 750;
+        cursor: pointer;
+    }
+
+    .result-delete-btn:hover {
+        background: #ffe0e0;
+        color: #a51d1d;
+    }
+
+    .results-empty {
+        text-align: center;
+        padding: 65px 20px;
+    }
+
+    .results-empty-icon {
+        font-size: 42px;
+        margin-bottom: 15px;
+    }
+
+    .results-empty-title {
+        color: #0b2453;
+        font-size: 20px;
+        font-weight: 800;
+        margin-bottom: 8px;
+    }
+
+    .results-empty-text {
+        color: #728096;
+        font-size: 14px;
+        margin-bottom: 22px;
+    }
+
+    .results-footer {
+        margin-top: 30px;
+    }
+
+    .results-back-btn {
+        display: inline-block;
+        padding: 12px 22px;
+        background: #f3f6fb;
+        color: #52647e;
+        border: 1px solid #e1e7f0;
+        border-radius: 10px;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .results-back-btn:hover {
+        background: #e9eef6;
+        color: #102447;
+    }
+
+    @@media (max-width: 700px) {
+        .manage-results-page {
+            margin-top: 25px;
+            padding: 0 15px 40px;
+        }
+
+        .results-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .results-title {
+            font-size: 28px;
+        }
+
+        .results-create-btn {
+            width: 100%;
+            text-align: center;
+        }
+
+        .results-summary {
+            padding: 20px;
+        }
+
+        .results-table-header {
+            padding: 20px;
+        }
+
+        .results-table th,
+        .results-table td {
+            padding: 14px 12px;
+        }
+    }
+</style>
+
+<div class="manage-results-page">
+
+    <div class="results-header">
+
+        <div>
+            <div class="results-eyebrow">
+                ORGANIZER / RESULTS
+            </div>
+
+            <h1 class="results-title">
+                Manage Results
+            </h1>
+
+            <p class="results-subtitle">
+                Record, update and manage race results.
+            </p>
+        </div>
+
+        <a asp-controller="Organiser"
+           asp-action="CreateResult"
+           class="results-create-btn">
+            + Record New Result
+        </a>
+
+    </div>
+
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Error"]
+        </div>
+    }
+
+    <div class="results-summary">
+
+        <div>
+            <div class="results-summary-label">
+                Total Recorded Results
+            </div>
+
+            <h2 class="results-summary-number">
+                @(Model?.Count ?? 0)
+            </h2>
+        </div>
+
+        <div class="results-summary-icon">
+            &#9733;
+        </div>
+
+    </div>
+
+    <div class="results-table-card">
+
+        <div class="results-table-header">
+            <h2 class="results-table-title">
+                Race Results
+            </h2>
+        </div>
+
+        @if (Model != null && Model.Any())
+        {
+            <div class="results-table-wrapper">
+
+                <table class="results-table">
+
+                    <thead>
+                        <tr>
+                            <th>Result ID</th>
+                            <th>Enrollment ID</th>
+                            <th>Position</th>
+                            <th>Finish Time (Seconds)</th>
+                            <th>Status</th>
+                            <th>Recorded At</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var result in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    <span class="result-id">
+                                        #@result.ResultsID
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="result-enrollment">
+                                        #@result.EnrollmentsID
+                                    </span>
+                                </td>
+
+                                <td>
+                                    @if (result.Position.HasValue)
+                                    {
+                                        <span class="result-position">
+                                            @result.Position
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span>N/A</span>
+                                    }
+                                </td>
+
+                                <td>
+                                    @(result.FinishTimeSeconds?.ToString() ?? "N/A")
+                                </td>
+
+                                <td>
+                                    @if (string.Equals(
+                                        result.ResultStatus,
+                                        "Finished",
+                                        StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        <span class="result-status result-status-finished">
+                                            @result.ResultStatus
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="result-status result-status-other">
+                                            @result.ResultStatus
+                                        </span>
+                                    }
+                                </td>
+
+                                <td>
+                                    @result.RecordedAt.ToString("dd/MM/yyyy HH:mm")
+                                </td>
+
+                                <td>
+                                    <div class="result-actions">
+
+                                        <a asp-controller="Organiser"
+                                           asp-action="EditResult"
+                                           asp-route-id="@result.ResultsID"
+                                           class="result-edit-btn">
+                                            Edit
+                                        </a>
+
+                                        <form asp-controller="Organiser"
+                                              asp-action="DeleteResult"
+                                              asp-route-id="@result.ResultsID"
+                                              method="post"
+                                              onsubmit="return confirm('Are you sure you want to delete this result?');">
+
+                                            @Html.AntiForgeryToken()
+
+                                            <button type="submit"
+                                                    class="result-delete-btn">
+                                                Delete
+                                            </button>
+
+                                        </form>
+
+                                    </div>
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+        else
+        {
+            <div class="results-empty">
+
+                <div class="results-empty-icon">
+                    &#9733;
+                </div>
+
+                <h3 class="results-empty-title">
+                    No Results Recorded
+                </h3>
+
+                <p class="results-empty-text">
+                    No race results have been recorded yet.
+                    Record your first result to get started.
+                </p>
+
+                <a asp-controller="Organiser"
+                   asp-action="CreateResult"
+                   class="results-create-btn">
+                    + Record New Result
+                </a>
+
+            </div>
+        }
+
+    </div>
+
+    <div class="results-footer">
+
+        <a asp-controller="Organiser"
+           asp-action="Index"
+           class="results-back-btn">
+            Back to Dashboard
+        </a>
+
+    </div>
+
+</div>
