@@ -1,0 +1,133 @@
+@model RaceDay.MVC.Models.ProfileViewModel
+
+@{
+    ViewData["Title"] = "My Profile";
+    Layout = "_Layout";
+}
+
+<style>
+    .profile-page { max-width: 1260px; margin: 0 auto; padding: 42px 24px 70px; color: #09275e; font-family: Arial, sans-serif; }
+    .profile-page * { box-sizing: border-box; }
+    .profile-page .eyebrow { color: #0066ed; letter-spacing: 2px; font-size: 12px; font-weight: bold; margin-bottom: 8px; }
+    .profile-page h1 { font-family: Impact, "Arial Narrow", sans-serif; font-style: italic; font-size: 44px; text-transform: uppercase; color: #082c79; margin: 0 0 8px; }
+    .profile-page .subtitle { color: #637797; font-size: 15px; margin: 0 0 32px; }
+    .profile-page .profile-tabs { display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap; }
+    .profile-page .profile-tab { padding: 10px 15px; border-radius: 10px; color: #536988; text-decoration: none; font-size: 13px; }
+    .profile-page .profile-tab.active { background: white; color: #09275e; box-shadow: 0 2px 6px rgba(0,0,0,.08); }
+    .profile-page .profile-card { background: white; border: 1px solid #d7e4f1; border-radius: 20px; padding: 32px; max-width: 770px; box-shadow: 0 5px 15px rgba(10,50,100,.05); }
+    .profile-page .photo-section { display: flex; align-items: center; gap: 20px; padding-bottom: 24px; margin-bottom: 26px; border-bottom: 1px solid #e4edf7; }
+    .profile-page .avatar { width: 78px; height: 78px; border-radius: 50%; background: #dceeff; display: grid; place-items: center; color: #0067e8; flex-shrink: 0; overflow: hidden; }
+    .profile-page .avatar-image { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+    .profile-page .avatar-placeholder { font-size: 32px; color: #0067e8; }
+    .profile-page .photo-details { flex: 1; min-width: 0; }
+    .profile-page .photo-title { font-weight: bold; font-size: 14px; margin-bottom: 5px; }
+    .profile-page .photo-note { color: #71809b; font-size: 12px; margin-bottom: 12px; }
+    .profile-page .photo-buttons { display: flex; gap: 9px; flex-wrap: wrap; }
+    .profile-page .photo-buttons form { margin: 0; }
+    .profile-page .photo-button { border: none; background: linear-gradient(100deg, #082e83, #079af5); color: white; border-radius: 8px; padding: 10px 14px; font-size: 12px; font-weight: bold; cursor: pointer; }
+    .profile-page .photo-button:hover { opacity: .9; }
+    .profile-page .photo-button:disabled { opacity: .65; cursor: not-allowed; }
+    .profile-page .photo-remove { background: #f1f6fc; border: 1px solid #d5e1ee; color: #536988; }
+    .profile-page .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 22px 20px; }
+    .profile-page .form-group label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 7px; }
+    .profile-page .form-control { width: 100%; height: 39px; border: 1px solid #cbdced; border-radius: 10px; padding: 10px 12px; font-size: 13px; color: #09275e; box-shadow: 0 2px 3px rgba(0,0,0,.05); }
+    .profile-page .form-control:focus { outline: 2px solid #8bc5ff; }
+    .profile-page .form-control:read-only { background: #f9fbfe; color: #8391a6; }
+    .profile-page .field-note { color: #71809b; font-size: 11px; margin-top: 7px; }
+    .profile-page .validation-error { color: #dc3545; font-size: 12px; }
+    .profile-page .form-actions { display: flex; justify-content: flex-end; margin-top: 30px; }
+    .profile-page .primary-button { border: none; border-radius: 10px; padding: 12px 18px; background: linear-gradient(100deg, #082e83, #079af5); color: white; text-decoration: none; font-size: 13px; font-weight: bold; cursor: pointer; }
+    .profile-page .alert { max-width: 770px; border-radius: 10px; padding: 14px; margin-bottom: 20px; }
+    .profile-page .alert-success { background: #e5f8ee; color: #126e42; }
+    .profile-page .alert-danger { background: #fff0f0; color: #b42318; }
+    @@media (max-width: 800px) {
+        .profile-page { padding: 28px 16px; }
+        .profile-page .profile-card { padding: 22px; }
+        .profile-page .form-grid { grid-template-columns: 1fr; }
+        .profile-page h1 { font-size: 36px; }
+    }
+</style>
+
+<main class="profile-page">
+    <div class="eyebrow">ACCOUNT</div>
+    <h1>My Profile</h1>
+    <p class="subtitle">Update your personal details and password.</p>
+
+    <div class="profile-tabs">
+        <a asp-controller="Participant" asp-action="MyProfile" class="profile-tab active">♙ Personal information</a>
+        <a asp-controller="Participant" asp-action="ChangePassword" class="profile-tab">⚿ Change password</a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+    <div class="profile-card">
+        <div class="photo-section">
+            <div class="avatar">
+                <img src="@Url.Action("ProfilePhoto", "Participant")" alt="Profile picture" class="avatar-image"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+                <span class="avatar-placeholder" style="display:none;">♙</span>
+            </div>
+            <div class="photo-details">
+                <div class="photo-title">Profile picture</div>
+                <div class="photo-note">JPG, PNG or WEBP. Maximum 5 MB.</div>
+                <form asp-controller="Participant" asp-action="UploadProfilePhoto" method="post"
+                      enctype="multipart/form-data" id="uploadPhotoForm">
+                    @Html.AntiForgeryToken()
+                    <input type="file" name="image" id="profileImageInput"
+                           accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                           style="display:none;"
+                           onchange="document.getElementById('uploadPhotoForm').requestSubmit();" />
+                </form>
+                <div class="photo-buttons">
+                    <button type="button" class="photo-button"
+                            onclick="document.getElementById('profileImageInput').click();">Upload photo</button>
+                    <form asp-controller="Participant" asp-action="RemoveProfilePhoto" method="post"
+                          onsubmit="return confirm('Are you sure you want to remove your profile picture?');">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="photo-button photo-remove">Remove photo</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <form asp-controller="Participant" asp-action="UpdateProfile" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="UsersID" />
+            <div class="form-grid">
+                <div class="form-group">
+                    <label asp-for="FirstName">First Name</label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="validation-error"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LastName">Last Name</label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="validation-error"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email">Email</label>
+                    <input asp-for="Email" class="form-control" readonly />
+                    <div class="field-note">Your sign-in email can't be changed here.</div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PhoneNumber">Phone Number</label>
+                    <input asp-for="PhoneNumber" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Account Created</label>
+                    <input value="@Model.CreatedAt.ToString("dd MMM yyyy")" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="primary-button">Save changes</button>
+            </div>
+        </form>
+    </div>
+</main>
