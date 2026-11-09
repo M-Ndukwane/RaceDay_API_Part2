@@ -52,9 +52,19 @@ public class OrganiserAuthorizationTests
             VenuesID = 1
         };
 
-        var response = await client.PostAsJsonAsync(
-            "/api/Events", eventRequest);
+        using var formData = new MultipartFormDataContent
+{
+    { new StringContent(eventRequest.EventName), "EventName" },
+    { new StringContent(eventRequest.Description), "Description" },
+    { new StringContent(eventRequest.EventDate.ToString("yyyy-MM-dd")), "EventDate" },
+    { new StringContent(eventRequest.StartTime), "StartTime" },
+    { new StringContent(eventRequest.RegistrationDeadline.ToString("yyyy-MM-dd")), "RegistrationDeadline" },
+    { new StringContent(eventRequest.VenuesID.ToString()), "VenuesID" }
+};
 
+        var response = await client.PostAsync(
+            "/api/Events",
+            formData);
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
     }
 }

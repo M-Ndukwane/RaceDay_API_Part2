@@ -63,8 +63,15 @@ public class AuthorizationEndpointTests
         request.Headers.Authorization =
             new AuthenticationHeaderValue("Bearer", token);
 
-        request.Content = new StringContent(
-            "{}", Encoding.UTF8, "application/json");
+        request.Content = new MultipartFormDataContent
+{
+    { new StringContent("Test Race"), "EventName" },
+    { new StringContent("Authorization test"), "Description" },
+    { new StringContent(DateTime.UtcNow.AddDays(30).ToString("yyyy-MM-dd")), "EventDate" },
+    { new StringContent("09:00:00"), "StartTime" },
+    { new StringContent(DateTime.UtcNow.AddDays(20).ToString("yyyy-MM-dd")), "RegistrationDeadline" },
+    { new StringContent("1"), "VenuesID" }
+};
 
         var response = await client.SendAsync(request);
 
@@ -182,9 +189,19 @@ public async Task Participant_CannotUpdateEvent()
             new System.Net.Http.Headers.AuthenticationHeaderValue(
                 "Bearer", token);
 
-        var response = await client.PutAsJsonAsync(
+        using var formData = new MultipartFormDataContent
+{
+    { new StringContent("Updated Test Race"), "EventName" },
+    { new StringContent("Authorization test update"), "Description" },
+    { new StringContent(DateTime.UtcNow.AddDays(30).ToString("yyyy-MM-dd")), "EventDate" },
+    { new StringContent("09:00:00"), "StartTime" },
+    { new StringContent(DateTime.UtcNow.AddDays(20).ToString("yyyy-MM-dd")), "RegistrationDeadline" },
+    { new StringContent("1"), "VenuesID" }
+};
+
+        var response = await client.PutAsync(
             "/api/Events/1",
-            new { });
+            formData);
 
         Assert.Equal(
             HttpStatusCode.Forbidden,
